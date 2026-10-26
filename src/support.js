@@ -14,7 +14,7 @@ import { icon } from "./ui.js";
  * Cambia esta línea por tu enlace real de Ko-fi / Buy Me a Coffee / GitHub
  * Sponsors. Es el único sitio donde vive la URL: la usan el aviso y Ajustes.
  */
-export const DONATE_URL = "https://ko-fi.com/focuswalk";
+export const DONATE_URL = "https://ko-fi.com/yancodev";
 
 export const COFFEE_DAYS = 15;
 

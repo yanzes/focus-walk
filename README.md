@@ -154,7 +154,7 @@ estampa el `.ico` dentro del `.exe` con rcedit.
 
 ## Apoyo y donaciones
 
-<a href="https://ko-fi.com/focuswalk">Invítame a un café</a> — un pago único y voluntario,
+<a href="https://ko-fi.com/yancodev">Invítame a un café</a> — un pago único y voluntario,
 sin suscripción y sin desbloquear nada: la app ya está completa.
 
 Dónde vive el enlace **en un solo sitio**: [src/support.js](src/support.js) (`DONATE_URL`).
