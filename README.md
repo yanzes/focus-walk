@@ -175,16 +175,16 @@ por asset, así que es el único sitio correcto para él.
 **1. Subir el código** (solo una vez):
 
 ```bash
-git remote add origin https://github.com/USUARIO/focus-walk.git
+git remote add origin https://github.com/yanzes/focus-walk.git
 git push -u origin main
 ```
 
-Crea antes el repositorio vacío en GitHub (público: Pages gratis; privado exige plan de
-pago para publicar la web).
+El repositorio debe ser público: Pages es gratis, pero en un repositorio privado exige
+plan de pago.
 
 **2. Activar la web**: repositorio → *Settings* → *Pages* → *Build and deployment* →
 *Deploy from a branch* → rama `main`, carpeta `/docs` → *Save*. Queda en
-`https://USUARIO.github.io/focus-walk/` (tarda un minuto).
+`https://yanzes.github.io/focus-walk/` (tarda un minuto).
 
 **3. Publicar el instalador**: repositorio → *Releases* → *Draft a new release* →
 tag `v0.2.0` → adjunta `release/FocusWalk-Setup-0.2.0.exe` → *Publish release*.
@@ -193,7 +193,7 @@ tag `v0.2.0` → adjunta `release/FocusWalk-Setup-0.2.0.exe` → *Publish releas
 constantes que hay que tocar:
 
 ```js
-const REPO = "yancoDev/focus-walk";                    // USUARIO/repositorio
+const REPO = "yanzes/focus-walk";                    // USUARIO/repositorio
 const INSTALLER = "FocusWalk-Setup-0.2.0.exe";         // nombre exacto del asset
 ```
 
