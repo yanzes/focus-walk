@@ -2,6 +2,9 @@
 
 <img src="assets/icon.png" width="96" alt="Icono de Focus Walk" />
 
+**Web**: <https://yanzes.github.io/focus-walk/> ·
+**Descarga**: [última versión](https://github.com/yanzes/focus-walk/releases/latest)
+
 App nativa de Windows: una ventana sin bordes, transparente y siempre encima, pegada al
 borde superior de la pantalla. Se expande al pasar el cursor y reúne la música que estés
 reproduciendo en cualquier app, pomodoro, hidratación, estante de archivos y tareas.
