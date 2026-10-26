@@ -1,0 +1,97 @@
+/* ==========================================================================
+   Design tokens — cambia estos valores y toda la app cambia de identidad.
+   ========================================================================== */
+
+:root {
+  /* Superficies */
+  --void: #07080d;
+  --void-2: #0b0d15;
+  --panel: #12141d;
+  --panel-2: #181b26;
+  --panel-3: #1e2230;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.16);
+
+  /* Texto */
+  --ink: #f2f3f9;
+  --mist: #a7abc2;
+  --dim: #73778e;
+
+  /* Acento (se sobrescribe con data-accent) */
+  --accent: #7c5cff;
+  --accent-rgb: 124, 92, 255;
+  --accent-2: #22d3ee;
+  --accent-3: #c4b5fd;
+
+  /* Semánticos */
+  --water: #38bdf8;
+  --water-rgb: 56, 189, 248;
+  --focus: #fbbf24;
+  --focus-rgb: 251, 191, 36;
+  --ok: #34d399;
+  --danger: #fb7185;
+
+  /* Radios */
+  --r-xs: 8px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+
+  /* Espaciado */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 22px;
+  --s6: 28px;
+
+  /* Movimiento */
+  --ease-spring: cubic-bezier(0.22, 1.28, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 150ms;
+  --t-mid: 260ms;
+  --t-slow: 420ms;
+
+  /* Tipografía */
+  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system,
+    "Inter", sans-serif;
+  --font-display: "Segoe UI Variable Display", "Segoe UI", system-ui,
+    -apple-system, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "Consolas", "SF Mono", monospace;
+
+  /* Sombra del notch */
+  --notch-shadow: 0 30px 70px -24px rgba(0, 0, 0, 0.85),
+    0 6px 20px -8px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Temas de acento ------------------------------------------------------ */
+
+[data-accent="cyan"] {
+  --accent: #22d3ee;
+  --accent-rgb: 34, 211, 238;
+  --accent-2: #a78bfa;
+  --accent-3: #a5f3fc;
+}
+
+[data-accent="amber"] {
+  --accent: #fbbf24;
+  --accent-rgb: 251, 191, 36;
+  --accent-2: #fb7185;
+  --accent-3: #fde68a;
+}
+
+[data-accent="rose"] {
+  --accent: #fb7185;
+  --accent-rgb: 251, 113, 133;
+  --accent-2: #f472b6;
+  --accent-3: #fecdd3;
+}
+
+[data-accent="emerald"] {
+  --accent: #34d399;
+  --accent-rgb: 52, 211, 153;
+  --accent-2: #38bdf8;
+  --accent-3: #6ee7b7;
+}

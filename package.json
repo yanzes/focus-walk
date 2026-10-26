@@ -1,0 +1,21 @@
+{
+  "name": "focus-walk",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Notch de escritorio: música con letras, pomodoro, hidratación, estante de archivos y tareas.",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "build": "node scripts/build-portable.cjs",
+    "dist": "electron-builder --win --x64",
+    "dist:dir": "electron-builder --win --x64 --dir",
+    "web": "python -m http.server 5173 --bind 127.0.0.1"
+  },
+  "author": "Focus Walk",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0",
+    "rcedit": "^5.0.2"
+  }
+}

@@ -1,0 +1,365 @@
+/* ==========================================================================
+   Notch: la pieza central. Estados colapsado / expandido y su shell.
+   ========================================================================== */
+
+.notch {
+  --w: 288px;
+  --h: 34px;
+  --r: 20px;
+
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 30;
+  width: var(--w);
+  height: var(--h);
+  transform: translateX(-50%);
+  /* Colgado del borde superior: solo redondea abajo. */
+  border-radius: 0 0 var(--r) var(--r);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 0;
+  background: linear-gradient(180deg, rgba(22, 25, 37, 0.94), rgba(9, 11, 17, 0.97));
+  backdrop-filter: blur(26px) saturate(150%);
+  box-shadow: 0 22px 50px -22px rgba(0, 0, 0, 0.9), 0 4px 16px -8px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  isolation: isolate;
+  transition: width var(--t-slow) var(--ease-spring),
+    height var(--t-slow) var(--ease-spring), border-radius var(--t-mid) var(--ease-out),
+    box-shadow var(--t-mid) var(--ease-out), border-color var(--t-mid);
+}
+
+.notch[data-state="expanded"] {
+  --w: 472px;
+  --r: 24px;
+  border-color: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 30px 70px -22px rgba(0, 0, 0, 0.92),
+    0 0 70px -18px rgba(var(--accent-rgb), 0.45);
+}
+
+
+/* --- Estado colapsado (pill) -------------------------------------------- */
+
+.notch__pill {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  opacity: 1;
+  transition: opacity 160ms var(--ease-out);
+}
+
+.notch[data-state="expanded"] .notch__pill {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pill__eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 13px;
+  flex: 0 0 auto;
+}
+
+.pill__eq span {
+  width: 2.5px;
+  border-radius: 2px;
+  background: var(--accent-3);
+  height: 30%;
+  animation: eq 1.1s ease-in-out infinite;
+}
+
+.pill__eq span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+.pill__eq span:nth-child(3) {
+  animation-delay: 0.36s;
+}
+.pill__eq span:nth-child(4) {
+  animation-delay: 0.52s;
+}
+
+.notch[data-playing="false"] .pill__eq span {
+  animation-play-state: paused;
+  height: 18%;
+  opacity: 0.5;
+}
+
+@keyframes eq {
+  0%,
+  100% {
+    height: 22%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+
+.pill__icon {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  border-radius: 6px;
+  color: var(--accent-3);
+}
+
+.pill__icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.pill__text {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--mist);
+}
+
+.pill__text strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.pill__meta {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--mist);
+  font-variant-numeric: tabular-nums;
+  flex: 0 0 auto;
+}
+
+.pill__clock {
+  flex: 0 0 auto;
+  padding-left: 9px;
+  margin-left: 9px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  opacity: 0.9;
+}
+
+.pill__progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.9), var(--accent-3));
+  transition: width 300ms linear;
+}
+
+/* --- Estado expandido (panel) ------------------------------------------- */
+
+.notch__panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 140ms var(--ease-out), transform 200ms var(--ease-out);
+}
+
+.notch[data-state="expanded"] .notch__panel {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition: opacity 260ms var(--ease-out) 120ms,
+    transform 320ms var(--ease-spring) 90ms;
+}
+
+.notch__head {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: 10px 10px 8px;
+  flex: 0 0 auto;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.tab {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 30px;
+  border-radius: 9px;
+  color: var(--dim);
+  transition: color var(--t-fast), background var(--t-fast);
+}
+
+.tab svg {
+  width: 16px;
+  height: 16px;
+}
+
+.tab:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.tab[aria-selected="true"] {
+  color: var(--accent-3);
+  background: rgba(var(--accent-rgb), 0.16);
+}
+
+.tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.8);
+}
+
+/* Badge de notificación en pestañas */
+.tab__dot {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 6px var(--ok);
+}
+
+.head__actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--dim);
+  transition: color var(--t-fast), background var(--t-fast);
+}
+
+.icon-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.icon-btn:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.icon-btn[aria-pressed="true"] {
+  color: var(--accent-3);
+  background: rgba(var(--accent-rgb), 0.18);
+}
+
+.icon-btn--power:hover {
+  color: var(--danger);
+  background: rgba(251, 113, 133, 0.12);
+}
+
+.notch__body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  padding: 2px 12px 12px;
+  overflow: hidden;
+}
+
+/* --- Página genérica ----------------------------------------------------- */
+
+.page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: page-in 300ms var(--ease-out);
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page__title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.page__title h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.page__title span {
+  font-size: 11.5px;
+  color: var(--dim);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.brand__mark {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.14);
+}

@@ -1,0 +1,13 @@
+# Dependencias
+node_modules/
+
+# Artefactos de compilación (el instalador va en GitHub Releases, no en el repo:
+# pesa 116 MB y GitHub rechaza archivos de más de 100 MB)
+dist/
+release/
+
+# Metadatos locales
+.freebuff/
+*.log
+*.blockmap
+__pycache__/

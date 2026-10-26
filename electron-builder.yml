@@ -1,0 +1,41 @@
+appId: com.focuswalk.app
+productName: Focus Walk
+copyright: Focus Walk
+
+directories:
+  output: release
+
+# La app lanza electron/native/system-bridge.ps1 con un proceso externo de
+# PowerShell. Windows no sabe abrir nada dentro de un .asar, así que el paquete
+# va sin archivar: es la única forma de que la música, el volumen y Mayús sigan
+# funcionando sin tocar el código.
+asar: false
+
+files:
+  - index.html
+  - package.json
+  - src/**/*
+  - styles/**/*
+  - electron/**/*
+  - assets/**/*
+  - "!**/*.map"
+
+win:
+  icon: assets/icon.ico
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: FocusWalk-${version}-${arch}.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Focus Walk
+  uninstallDisplayName: Focus Walk
+  artifactName: FocusWalk-Setup-${version}.${ext}
+  # Los datos (tareas, agua, pomodoro) viven en %APPDATA%: no se borran al desinstalar.
+  deleteAppDataOnUninstall: false

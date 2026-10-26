@@ -1,0 +1,475 @@
+/* ==========================================================================
+   Base: reset, escritorio de fondo, taskbar, OSD y toasts
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--void);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+input {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+}
+
+input:focus-visible,
+button:focus-visible {
+  outline: 2px solid rgba(var(--accent-rgb), 0.7);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba(var(--accent-rgb), 0.4);
+}
+
+/* --- Escritorio simulado -------------------------------------------------- */
+
+.desktop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+      1100px 620px at 22% -10%,
+      rgba(var(--accent-rgb), 0.26),
+      transparent 62%
+    ),
+    radial-gradient(900px 540px at 84% 10%, rgba(34, 211, 238, 0.16), transparent 60%),
+    radial-gradient(760px 520px at 62% 110%, rgba(251, 113, 133, 0.12), transparent 62%),
+    linear-gradient(180deg, #0a0c14 0%, #070810 46%, #05060b 100%);
+}
+
+.desktop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(circle at 50% 32%, #000 0%, transparent 78%);
+  opacity: 0.7;
+}
+
+.desktop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, transparent 40%, rgba(4, 5, 10, 0.65));
+  pointer-events: none;
+}
+
+.desktop__label {
+  position: absolute;
+  left: 50%;
+  bottom: 132px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: 9px 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: rgba(14, 16, 24, 0.55);
+  backdrop-filter: blur(14px);
+  color: var(--mist);
+  font-size: 12.5px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.desktop__label kbd {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--line-2);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink);
+}
+
+.desktop__brand {
+  position: absolute;
+  left: var(--s6);
+  bottom: 92px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--dim);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* --- Taskbar simulada ---------------------------------------------------- */
+
+.taskbar {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: 8px 10px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  background: rgba(12, 14, 21, 0.62);
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.9);
+}
+
+.taskbar__cluster {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.taskbar__divider {
+  width: 1px;
+  height: 22px;
+  background: var(--line);
+  margin: 0 6px;
+}
+
+.taskbar__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border-radius: var(--r-sm);
+  color: var(--mist);
+  font-size: 12.5px;
+  transition: background var(--t-fast) var(--ease-out), color var(--t-fast);
+}
+
+.taskbar__btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--ink);
+}
+
+.taskbar__btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.taskbar__clock {
+  padding: 0 8px 0 4px;
+  text-align: right;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--mist);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- OSD (overlays del sistema) ------------------------------------------ */
+
+.osd-wrap {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  pointer-events: none;
+  align-items: center;
+}
+
+/* --- Recordatorio del café ----------------------------------------------- */
+
+.nudge-wrap {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 44;
+  width: min(300px, calc(100vw - 16px));
+  pointer-events: none;
+}
+
+.coffee {
+  pointer-events: auto;
+  padding: 12px 13px;
+  border-radius: var(--r-md);
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  background: linear-gradient(180deg, rgba(28, 24, 46, 0.96), rgba(12, 12, 20, 0.97));
+  backdrop-filter: blur(22px);
+  box-shadow: var(--notch-shadow);
+  opacity: 0;
+  transform: translateY(-10px) scale(0.97);
+  transition: opacity var(--t-mid) var(--ease-out),
+    transform var(--t-mid) var(--ease-spring);
+}
+
+.coffee.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.coffee__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.coffee__icon {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.18);
+  color: var(--accent-3);
+}
+
+.coffee__icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.coffee__head strong {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.coffee__text {
+  margin: 7px 0 10px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--mist);
+}
+
+.coffee__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.coffee__never {
+  padding: 0;
+  margin-left: auto;
+  border: 0;
+  background: none;
+  color: var(--dim);
+  font-size: 10.5px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.coffee__never:hover {
+  color: var(--mist);
+}
+
+.osd {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 230px;
+  padding: 11px 16px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-2);
+  background: linear-gradient(180deg, rgba(26, 29, 42, 0.94), rgba(14, 16, 24, 0.96));
+  backdrop-filter: blur(22px);
+  box-shadow: var(--notch-shadow);
+  opacity: 0;
+  transform: translateY(-12px) scale(0.96);
+  transition: opacity var(--t-mid) var(--ease-out),
+    transform var(--t-mid) var(--ease-spring);
+}
+
+.osd.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.osd__icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  background: rgba(var(--accent-rgb), 0.16);
+  color: var(--accent-3);
+}
+
+.osd__icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.osd__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.osd__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--mist);
+  margin-bottom: 6px;
+}
+
+.osd__value {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.osd__track {
+  height: 5px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.osd__fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.85), var(--accent-3));
+  transition: width var(--t-mid) var(--ease-out);
+}
+
+.osd__fill[data-tone="water"] {
+  background: linear-gradient(90deg, var(--water), #a5f3fc);
+}
+
+.osd__fill[data-tone="focus"] {
+  background: linear-gradient(90deg, var(--focus), #fde68a);
+}
+
+.osd__fill[data-tone="ok"] {
+  background: linear-gradient(90deg, var(--ok), #a7f3d0);
+}
+
+/* --- Toast --------------------------------------------------------------- */
+
+.toasts {
+  position: fixed;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  padding: 9px 15px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: rgba(16, 18, 27, 0.92);
+  backdrop-filter: blur(16px);
+  font-size: 12.5px;
+  color: var(--mist);
+  box-shadow: 0 12px 30px -16px rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--t-mid) var(--ease-out),
+    transform var(--t-mid) var(--ease-spring);
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Utilidades ---------------------------------------------------------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Modo escritorio (ventana nativa de Electron) ------------------------
+   Sin escritorio simulado: detrás del notch está el escritorio real.
+   Y el notch debe ser opaco, porque una ventana transparente no puede
+   difuminar lo que hay detrás. */
+
+html[data-native="true"],
+html[data-native="true"] body {
+  background: transparent;
+}
+
+html[data-native="true"] .desktop,
+html[data-native="true"] .taskbar,
+html[data-native="true"] .toasts {
+  display: none;
+}
+
+html[data-native="true"] .notch {
+  background: linear-gradient(180deg, #171a26, #08090f);
+  backdrop-filter: none;
+  box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+html[data-native="true"] .osd {
+  background: linear-gradient(180deg, #1b1e2b, #0e1018);
+  backdrop-filter: none;
+  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.9);
+}
+
+html[data-native="true"] .coffee {
+  background: linear-gradient(180deg, #1d1830, #0d0c15);
+  backdrop-filter: none;
+  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.9);
+}
+
+/* Apagar no tiene sentido en la versión de navegador: ahí no hay app que cerrar. */
+html:not([data-native="true"]) .icon-btn--power {
+  display: none;
+}
+
+html[data-native="true"] .notch__pill {
+  padding: 0 13px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
