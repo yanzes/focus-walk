@@ -56,6 +56,12 @@ borde por accidente.
 El volumen, el brillo y Mayús **se observan**, no se simulan: si bajas el volumen con las
 teclas del portátil o activas Mayús, el notch muestra el aviso solo.
 
+El volumen también se puede mover desde la propia pestaña **Música**: la barra que va bajo
+los controles (clic, arrastre, o ← / → con paso de 5). No guarda un valor propio: pide el
+cambio a Windows y se repinta con lo que el sistema confirme, así que si lo cambias con las
+teclas, la barra se mueve sola. Aparece igual con música y sin ella, y el altavoz de su
+esquina silencia.
+
 > En este equipo el monitor no expone brillo (ni por WMI ni por DDC/CI), así que ese
 > control aparece como «No disponible en este monitor» en lugar de fingir un valor.
 
@@ -187,6 +193,10 @@ no me hago responsable del uso que se le dé ni de los daños directos o indirec
 archivos ([build/installer.nsh](build/installer.nsh)). Si cambias el texto, regenera la
 página de licencia con `python tools/make-installer-license.py`.
 
+**Ese archivo va en UTF-8 con BOM, y no es opcional.** NSIS lee los `!include` con la
+página ANSI del sistema, no con el `-INPUTCHARSET UTF8` que usa electron-builder para el
+script principal: sin el BOM, «café» se compila como «cafÃ©» y sale así en el instalador.
+
 **Marca del instalador.** La cabecera y el lateral llevan el logo de YANCO, generado
 desde [build/brand/yanco-logo.png](build/brand/yanco-logo.png) con
 `python tools/make-installer-art.py`. Salen dos BMP de 24 bits sin comprimir:
@@ -200,9 +210,12 @@ así que si cambias el logo hay que volver a ejecutar el script y reconstruir.
 <a href="https://ko-fi.com/yancodev">Invítame a un café</a> — un pago único y voluntario,
 sin suscripción y sin desbloquear nada: la app ya está completa.
 
-Dónde vive el enlace **en un solo sitio**: [src/support.js](src/support.js) (`DONATE_URL`).
-Lo usan el recordatorio y Ajustes; si lo cambias, hazlo también en
-[docs/index.html](docs/index.html), que es la página de publicación.
+Dónde vive el enlace: [src/support.js](src/support.js) (`DONATE_URL`). Lo usan el aviso
+del café y Ajustes. Está repetido a propósito en dos sitios que no pueden importarlo:
+[docs/index.html](docs/index.html), que es la página de publicación, y
+[build/installer.nsh](build/installer.nsh), que es la última página del instalador (la
+invitación aparece al terminar, que es cuando ya se sabe si la app sirve). Si cambias la
+cuenta, cámbialo en los tres.
 
 - **Recordatorio**: a los 15 días de la primera apertura aparece una tarjeta bajo el
   notch con *Invitar* / *Ahora no* / *No volver a mostrar*. `Ahora no` lo aplaza 15 días;

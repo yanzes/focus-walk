@@ -299,6 +299,94 @@
   pointer-events: none;
 }
 
+/* Volumen: mismo lenguaje visual que la barra de progreso, más fino. */
+.volume {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 24px;
+  flex: 0 0 auto;
+}
+
+.volume__mute {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: var(--mist);
+  transition: color var(--t-fast), background var(--t-fast);
+}
+
+.volume__mute svg {
+  width: 15px;
+  height: 15px;
+}
+
+.volume__mute:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.volume__mute[aria-pressed="true"] {
+  color: var(--accent-3);
+}
+
+.volume__bar {
+  position: relative;
+  flex: 1;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.volume__bar::before {
+  content: "";
+  position: absolute;
+  inset: 6px 0;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.volume__fill {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.85), var(--accent-3));
+  pointer-events: none;
+}
+
+.volume__knob {
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  transform: translateY(-50%) scale(0);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.9);
+  transition: transform var(--t-fast) var(--ease-spring);
+  pointer-events: none;
+}
+
+.volume__bar:hover .volume__knob,
+.volume__bar:focus-visible .volume__knob {
+  transform: translateY(-50%) scale(1);
+}
+
+.volume__value {
+  min-width: 48px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
 /* --- Focus (pomodoro) ---------------------------------------------------- */
 
 .focus {

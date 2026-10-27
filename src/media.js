@@ -5,7 +5,8 @@
  */
 
 import { TRACKS } from "./data.js";
-import { state, on as onStore } from "./store.js";
+import { state, save, on as onStore } from "./store.js";
+import { clamp } from "./ui.js";
 import { isNative } from "./native.js";
 import { sys, onSystem, systemCall, requestLyrics, artFor } from "./system.js";
 import * as player from "./player.js";
@@ -94,6 +95,28 @@ export function seek(seconds) {
 
 export function toggleMute() {
   if (isNative) systemCall({ cmd: "mute", value: !sys.muted });
+}
+
+/** Volumen actual (0..100): el del sistema en escritorio, el de demo en el navegador. */
+export function currentVolume() {
+  return isNative && typeof sys.volume === "number" ? sys.volume : state.music.volume;
+}
+
+/**
+ * Ajusta el volumen del equipo. En escritorio solo pide el cambio: el valor
+ * definitivo vuelve con el estado real del sistema, no se inventa aquí.
+ * @returns {number} el nivel aplicado (0..100)
+ */
+export function setVolume(value) {
+  const level = clamp(Math.round(Number(value) || 0), 0, 100);
+  if (isNative) {
+    systemCall({ cmd: "volume", value: level });
+  } else {
+    state.music.volume = level;
+    save();
+    emit();
+  }
+  return level;
 }
 
 /** Letras: LRCLIB en escritorio, demo en el navegador. */

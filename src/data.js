@@ -117,7 +117,7 @@ export function parseLRC(src) {
 
 /** Páginas del notch: id, etiqueta, icono y alto expandido. */
 export const PAGE_DEFS = [
-  { id: "music", label: "Música", icon: "i-music", height: 448 },
+  { id: "music", label: "Música", icon: "i-music", height: 484 },
   { id: "focus", label: "Enfoque", icon: "i-timer", height: 452 },
   { id: "water", label: "Agua", icon: "i-droplet", height: 430 },
   { id: "shelf", label: "Estante", icon: "i-shelf", height: 404 },

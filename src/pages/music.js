@@ -4,12 +4,14 @@ import { parseLRC } from "../data.js";
 import { clamp, esc, fmt, icon, on } from "../ui.js";
 import {
   currentTrack,
+  currentVolume,
   lyricsFor,
   next,
   onMedia,
   playPause,
   prev,
   seek,
+  setVolume,
   toggleMute,
 } from "../media.js";
 import { sys } from "../system.js";
@@ -45,6 +47,8 @@ export function createMusicPage() {
   let renderedConnecting = null;
   let lyricToken = 0;
   let seeking = false;
+  let volumeDrag = false;
+  let volumeSent = null;
   let unsubscribe = null;
 
   /* --- Markup ----------------------------------------------------------- */
@@ -53,6 +57,21 @@ export function createMusicPage() {
     <div class="lyrics__idle" aria-hidden="true">
       <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
     </div>`;
+
+  /**
+   * El volumen va en su propio bloque porque sobrevive a los dos estados de la
+   * pestaña: con música y sin ella. Nunca está de más saber que se puede subir.
+   */
+  const volumeMarkup = () => `
+      <div class="volume">
+        <button class="volume__mute" data-act="mute" aria-label="Silenciar" aria-pressed="false" title="Silenciar">${icon("i-volume")}</button>
+        <div class="volume__bar" data-volume role="slider" tabindex="0"
+             aria-label="Volumen del sistema" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="volume__fill" data-vfill></div>
+          <div class="volume__knob" data-vknob></div>
+        </div>
+        <span class="volume__value" data-vvalue>--</span>
+      </div>`;
 
   const emptyMarkup = () => {
     const connecting = isNative && !sys.connected;
@@ -68,7 +87,7 @@ export function createMusicPage() {
             ? "Leyendo la sesión multimedia del sistema."
             : "Reproduce algo en cualquier app de tu equipo y aparecerá aquí."
         }</span>
-      </div>
+      </div>${volumeMarkup()}
     </div>`;
   };
 
@@ -96,8 +115,8 @@ export function createMusicPage() {
         <button class="ctrl" data-act="prev" aria-label="Anterior">${icon("i-prev")}</button>
         <button class="ctrl ctrl--play" data-act="play" aria-label="Reproducir">${icon("i-play")}</button>
         <button class="ctrl" data-act="next" aria-label="Siguiente">${icon("i-next")}</button>
-        <button class="ctrl" data-act="mute" aria-label="Silenciar">${icon("i-volume")}</button>
       </div>
+      ${volumeMarkup()}
     </div>`;
 
   /* --- Ciclo de vida ---------------------------------------------------- */
@@ -130,6 +149,10 @@ export function createMusicPage() {
       next: root.querySelector('[data-act="next"]'),
       prev: root.querySelector('[data-act="prev"]'),
       mute: root.querySelector('[data-act="mute"]'),
+      vbar: root.querySelector("[data-volume]"),
+      vfill: root.querySelector("[data-vfill]"),
+      vknob: root.querySelector("[data-vknob]"),
+      vvalue: root.querySelector("[data-vvalue]"),
     };
   }
 
@@ -141,20 +164,24 @@ export function createMusicPage() {
     renderedKey = "";
     activeIdx = -1;
     lyricEls = [];
+    volumeSent = null;
 
     if (!track) {
       root.innerHTML = emptyMarkup();
-      els = null;
+      cache();
+      bindVolume();
+      paintVolume();
       return;
     }
 
     root.innerHTML = playerMarkup();
     cache();
-    bind();
+    bindPlayer();
+    bindVolume();
     render();
   }
 
-  function bind() {
+  function bindPlayer() {
     els.bar.addEventListener("pointerdown", (e) => {
       if (!els.bar.dataset.enabled) return;
       seeking = true;
@@ -178,6 +205,29 @@ export function createMusicPage() {
     });
   }
 
+  /** Volumen: mismo gesto que la barra de progreso, pero con paso de 5. */
+  function bindVolume() {
+    els.vbar.addEventListener("pointerdown", (e) => {
+      volumeDrag = true;
+      els.vbar.setPointerCapture(e.pointerId);
+      scrubVolume(e);
+    });
+    els.vbar.addEventListener("pointermove", (e) => {
+      if (volumeDrag) scrubVolume(e);
+    });
+    els.vbar.addEventListener("pointerup", (e) => {
+      if (!volumeDrag) return;
+      volumeDrag = false;
+      els.vbar.releasePointerCapture(e.pointerId);
+      scrubVolume(e);
+    });
+    els.vbar.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      e.preventDefault();
+      setVolume(currentVolume() + (e.key === "ArrowRight" ? 5 : -5));
+    });
+  }
+
   function scrub(e) {
     const track = currentTrack();
     if (!track || !track.canSeek) return;
@@ -185,6 +235,20 @@ export function createMusicPage() {
     const ratio = clamp((e.clientX - rect.left) / rect.width, 0, 1);
     seek(ratio * track.duration);
     paintProgress({ ...track, position: ratio * track.duration });
+  }
+
+  /**
+   * Se pinta al instante y solo se manda al sistema cuando cambia el entero: un
+   * arrastre genera 100 mensajes como mucho, no uno por píxel.
+   */
+  function scrubVolume(e) {
+    const rect = els.vbar.getBoundingClientRect();
+    const ratio = clamp((e.clientX - rect.left) / rect.width, 0, 1);
+    const level = Math.round(ratio * 100);
+    paintVolume(level);
+    if (level === volumeSent) return;
+    volumeSent = level;
+    setVolume(level);
   }
 
   /* --- Pintado ---------------------------------------------------------- */
@@ -215,13 +279,23 @@ export function createMusicPage() {
     els.play.setAttribute("aria-label", track.playing ? "Pausar" : "Reproducir");
     els.next.disabled = !track.canSkip;
     els.prev.disabled = !track.canSkip;
-
-    const muted = Boolean(sys.muted);
-    els.mute.innerHTML = icon("i-volume");
-    els.mute.setAttribute("aria-label", muted ? "Quitar silencio" : "Silenciar");
-    els.mute.setAttribute("aria-pressed", String(muted));
-
     els.source.innerHTML = `${track.playing ? "" : "En pausa · "}${esc(appLabel(track.app))}`;
+  }
+
+  /**
+   * @param {number|null} forced nivel que se está arrastrando ahora mismo, si lo hay
+   */
+  function paintVolume(forced = null) {
+    if (!els?.vbar) return;
+    const level = clamp(forced === null ? currentVolume() : forced, 0, 100);
+    const muted = Boolean(sys.muted);
+    els.vfill.style.width = `${level}%`;
+    els.vknob.style.left = `${level}%`;
+    els.vvalue.textContent = muted ? "Silencio" : `${level}%`;
+    els.vbar.setAttribute("aria-valuenow", String(level));
+    els.mute.setAttribute("aria-pressed", String(muted));
+    els.mute.setAttribute("aria-label", muted ? "Quitar silencio" : "Silenciar");
+    els.mute.title = muted ? "Quitar silencio" : "Silenciar";
   }
 
   function render() {
@@ -230,6 +304,7 @@ export function createMusicPage() {
     if (!track) {
       const connecting = isNative && !sys.connected;
       if (!renderedEmpty || renderedConnecting !== connecting) rebuild();
+      paintVolume();
       return;
     }
     if (renderedEmpty !== false) {
@@ -239,6 +314,7 @@ export function createMusicPage() {
     renderHead(track);
     paintProgress(track);
     paintControls(track);
+    paintVolume();
 
     if (renderedKey !== track.key) {
       renderedKey = track.key;
