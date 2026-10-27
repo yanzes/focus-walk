@@ -1,6 +1,6 @@
 appId: com.focuswalk.app
 productName: Focus Walk
-copyright: Focus Walk
+copyright: © 2026 yanzes · MIT
 
 directories:
   output: release
@@ -29,6 +29,11 @@ win:
   artifactName: FocusWalk-${version}-${arch}.${ext}
 
 nsis:
+  # Página de aviso que el usuario acepta antes de instalar. Se genera desde
+  # build/installer-license.txt con `python tools/make-installer-license.py`.
+  license: build/installer-license.rtf
+  # Aviso emergente durante la copia de archivos (ver build/installer.nsh).
+  include: build/installer.nsh
   oneClick: false
   perMachine: false
   allowToChangeInstallationDirectory: true

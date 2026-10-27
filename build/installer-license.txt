@@ -1,0 +1,34 @@
+# FOCUS WALK — LEE ESTO ANTES DE INSTALAR
+
+Versión 0.2.0 para Windows 10/11. Proyecto personal, de código abierto, sin empresa detrás.
+
+# Qué es
+
+Un notch en el borde superior de la pantalla: música con letras, pomodoro, agua, estante de archivos y tareas. Nació un fin de semana para resolver mi propia necesidad, y la publico por si a alguien más le sirve. No hay suscripción, ni cuenta, ni anuncios, ni funciones de pago.
+
+# Código abierto
+
+El código completo está en https://github.com/yanzes/focus-walk y se distribuye bajo licencia MIT: puedes usarlo, copiarlo, modificarlo y redistribuirlo, incluso comercialmente, conservando el aviso de autoría. Si te sirve, úsalo y difunde lo que aprendas.
+
+# De dónde viene
+
+- Idea de referencia: proyecto Nusa (https://rama2555.github.io/nusa/). La implementación de esta app es propia.
+- El notch es un concepto visual de Apple (el recorte del iPhone y la Dynamic Island). Este proyecto no está afiliado, patrocinado ni respaldado por Apple Inc.; las marcas citadas son de sus dueños.
+- Se usó inteligencia artificial como consultor técnico: revisión de enfoques, escritura y depuración de código. Las decisiones de diseño y la responsabilidad del resultado son del autor.
+- Letras: LRCLIB. Carátulas: catálogo público de iTunes. Datos del sistema: APIs de Windows (SMTC, WASAPI, WMI/DDC-CI).
+
+# Sin garantías y sin responsabilidad
+
+El programa se entrega «tal cual», sin garantía de ningún tipo. La app lee y controla de verdad la reproducción, el volumen y el brillo de tu equipo. No me hago responsable del uso que se le pueda dar ni de los daños directos o indirectos que de él se deriven: úsalo bajo tu criterio y con copia de seguridad de lo que te importe.
+
+No se envía nada a ningún servidor propio: tus datos (tareas, agua, pomodoro, preferencias) se quedan en tu carpeta de usuario. Solo salen a internet las consultas de letras y carátulas.
+
+# Privacidad y desinstalación
+
+Tus datos viven en %APPDATA%\focus-walk y se conservan al desinstalar. Puedes borrarlos desde Ajustes o a mano al quitar la app desde Aplicaciones instaladas.
+
+# El aviso en una línea
+
+Gratis, sin garantías, hecho por una persona en su tiempo libre. Si te sirve, compártelo; si rompe algo, la responsabilidad es de quien lo usa.
+
+Al continuar aceptas este aviso y la licencia MIT del proyecto.

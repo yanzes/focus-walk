@@ -152,6 +152,40 @@ no reutiliza el recuadro: a 16 px el detalle del círculo se emborrona, así que
 el doble chevron en `#7C5CFF`, que se lee sobre barra clara y oscura. `npm run build`
 estampa el `.ico` dentro del `.exe` con rcedit.
 
+## Origen, créditos y licencia
+
+Focus Walk es **código abierto** bajo licencia [MIT](LICENSE): puedes usarlo, copiarlo,
+modificarlo y redistribuirlo —incluso comercialmente— conservando el aviso de autoría.
+El código completo vive en <https://github.com/yanzes/focus-walk>. Tú decides si lo
+usas; si además te sirve de base para algo tuyo, mejor.
+
+**De dónde viene**
+
+- **Nusa** — <https://rama2555.github.io/nusa/>. Es el proyecto de referencia del que
+  parte la idea. La interfaz, las páginas y el comportamiento actuales son una
+  implementación propia sobre esa base; este repositorio no es un fork.
+- **El notch** — el recorte superior es un concepto visual de Apple (el notch del iPhone
+  y la Dynamic Island). Focus Walk lleva esa idea al borde superior de Windows y **no
+  está afiliado, patrocinado ni respaldado por Apple Inc.** «Apple», «iPhone» y «Mac» son
+  marcas de Apple Inc.
+- **IA como consultor** — el desarrollo se apoyó en asistentes de inteligencia artificial
+  para revisar enfoques, escribir y depurar código. Es una herramienta, no un autor: las
+  decisiones de diseño, el alcance y la responsabilidad del resultado son del autor.
+- **Servicios ajenos** — letras sincronizadas de [LRCLIB](https://lrclib.net), carátulas
+  del catálogo público de iTunes y las APIs de Windows (SMTC, WASAPI, WMI/DDC-CI).
+
+**Proyecto de fin de semana.** Nació para resolver una necesidad mía, en ratos libres, y
+no es un producto: no hay empresa detrás, ni hoja de ruta, ni soporte garantizado. Si a ti
+te resuelve lo mismo, úsalo, modifícalo y difunde lo que aprendas.
+
+**Sin garantías.** Se entrega «tal cual», sin garantía de ningún tipo, tal como recoge la
+MIT. La app **controla de verdad** el volumen, el brillo y la reproducción de tu equipo;
+no me hago responsable del uso que se le dé ni de los daños directos o indirectos que de
+él se deriven. Ese aviso te lo muestra el instalador antes de copiar nada
+([build/installer-license.txt](build/installer-license.txt)), y otra vez mientras copia los
+archivos ([build/installer.nsh](build/installer.nsh)). Si cambias el texto, regenera la
+página de licencia con `python tools/make-installer-license.py`.
+
 ## Apoyo y donaciones
 
 <a href="https://ko-fi.com/yancodev">Invítame a un café</a> — un pago único y voluntario,

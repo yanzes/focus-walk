@@ -1,0 +1,41 @@
+MIT License
+
+Copyright (c) 2026 yanzes
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---------------------------------------------------------------------------
+
+Nota de origen y créditos (no forma parte del texto de la licencia, pero se
+distribuye junto a ella):
+
+- Focus Walk parte como referencia del proyecto Nusa
+  (https://rama2555.github.io/nusa/). La interfaz y el código de este
+  repositorio son una implementación propia sobre esa idea.
+- El "notch" es un concepto visual de Apple (el recorte superior del iPhone y
+  la Dynamic Island). Este proyecto se inspira en esa idea para Windows y no
+  está afiliado, patrocinado ni respaldado por Apple Inc. Las marcas citadas
+  pertenecen a sus dueños.
+- Durante el desarrollo se usaron asistentes de inteligencia artificial como
+  consultor técnico (revisión de enfoques, escritura y depuración de código).
+  El diseño, las decisiones y la responsabilidad del resultado son del autor.
+
+El programa controla de verdad el volumen, el brillo y la reproducción del
+equipo; se ofrece sin garantías y el autor no se hace responsable del uso que
+se le dé ni de los daños directos o indirectos que de él se deriven.

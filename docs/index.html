@@ -404,6 +404,35 @@
         color: var(--accent);
       }
 
+      /* --- Origen y aviso -------------------------------------------------- */
+
+      .card a,
+      .fineprint a {
+        color: var(--accent-3);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(var(--accent-rgb), 0.45);
+      }
+
+      .card a:hover,
+      .fineprint a:hover {
+        color: var(--ink);
+      }
+
+      .fineprint {
+        margin: 22px 0 0;
+        padding: 18px 20px;
+        border-radius: var(--r-md);
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.022);
+        font-size: 12.5px;
+        line-height: 1.7;
+        color: var(--dim);
+      }
+
+      .fineprint b {
+        color: var(--mist);
+      }
+
       /* --- Pie ------------------------------------------------------------ */
 
       footer.site {
@@ -592,12 +621,63 @@
             </ul>
           </div>
         </section>
+
+        <section id="origen">
+          <p class="eyebrow">Origen y créditos</p>
+          <h2>Un proyecto de fin de semana, hecho con ayuda</h2>
+
+          <div class="grid">
+            <div class="card">
+              <h3><span class="card__dot" style="background: var(--accent)"></span>Código abierto</h3>
+              <p>
+                Se publica bajo licencia MIT: puedes usarlo, modificarlo y redistribuirlo,
+                incluso comercialmente, conservando el aviso de autoría. El código completo
+                está en el <a data-repo href="https://github.com/yanzes/focus-walk">repositorio</a>.
+              </p>
+            </div>
+            <div class="card">
+              <h3><span class="card__dot" style="background: var(--water)"></span>Parte de Nusa</h3>
+              <p>
+                La idea de partida es <a href="https://rama2555.github.io/nusa/" target="_blank" rel="noopener">Nusa</a>,
+                un proyecto de referencia. Esta app es una implementación propia sobre esa
+                base, no un fork: el notch, las páginas y el código son de este repositorio.
+              </p>
+            </div>
+            <div class="card">
+              <h3><span class="card__dot" style="background: var(--focus)"></span>El notch es de Apple</h3>
+              <p>
+                El recorte superior nace de un concepto visual de Apple (el notch del iPhone
+                y la Dynamic Island). Focus Walk no está afiliado, patrocinado ni respaldado
+                por Apple Inc.; cada marca es de su dueño.
+              </p>
+            </div>
+            <div class="card">
+              <h3><span class="card__dot" style="background: var(--accent-2)"></span>IA como consultor</h3>
+              <p>
+                Se usó inteligencia artificial para revisar enfoques, escribir y depurar
+                código. Es una herramienta, no un autor: el diseño y las decisiones son
+                míos, y la responsabilidad del resultado también.
+              </p>
+            </div>
+          </div>
+
+          <p class="fineprint">
+            <b>Sin garantías.</b> Focus Walk nació un fin de semana para resolver mi propia
+            necesidad, en ratos libres: no hay empresa detrás, ni soporte garantizado.
+            Funciona de verdad —lee la música del sistema y controla volumen y brillo—, así
+            que úsalo bajo tu criterio: <b>no me hago responsable del uso que se le dé ni de
+            los daños que de él se deriven</b>. Si te sirve, úsalo y difunde lo que aprendas;
+            para eso está publicado.
+          </p>
+        </section>
       </main>
 
       <footer class="site">
         <span>Focus Walk · versión 0.2.0 · Windows 10/11</span>
         <span>
           <a href="https://ko-fi.com/yancodev" target="_blank" rel="noopener">Invítame un café</a>
+          ·
+          <a href="#origen">Origen y créditos</a>
           ·
           <a data-repo href="https://github.com/yanzes/focus-walk">Cómo está hecho</a>
         </span>
