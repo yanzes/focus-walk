@@ -32,6 +32,12 @@ nsis:
   # Página de aviso que el usuario acepta antes de instalar. Se genera desde
   # build/installer-license.txt con `python tools/make-installer-license.py`.
   license: build/installer-license.rtf
+  # Marca de YANCO en el instalador. Los BMP se generan desde
+  # build/brand/yanco-logo.png con `python tools/make-installer-art.py`; los
+  # tamaños (150x57 y 164x314) son los huecos fijos de MUI2 y NSIS falla si no
+  # coinciden. NSIS no lee PNG: tienen que ser BMP de 24 bits sin comprimir.
+  installerHeader: build/installerHeader.bmp # cabecera de cada página interna
+  installerSidebar: build/installerSidebar.bmp # página final y desinstalador
   # Aviso emergente durante la copia de archivos (ver build/installer.nsh).
   include: build/installer.nsh
   oneClick: false

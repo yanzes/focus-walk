@@ -99,6 +99,7 @@ src/
 assets/                 icon.ico, icon.png, tray.png (tools/make-icons.py)
 scripts/build-portable.cjs   empaqueta dist/FocusWalk/FocusWalk.exe sin descargar nada
 electron-builder.yml    instalador NSIS (npm run dist)
+build/                  textos y logo del instalador (tools/make-installer-*.py)
 ```
 
 **Por qué el paquete va sin asar.** La app arranca `electron/native/system-bridge.ps1` con
@@ -185,6 +186,14 @@ no me hago responsable del uso que se le dé ni de los daños directos o indirec
 ([build/installer-license.txt](build/installer-license.txt)), y otra vez mientras copia los
 archivos ([build/installer.nsh](build/installer.nsh)). Si cambias el texto, regenera la
 página de licencia con `python tools/make-installer-license.py`.
+
+**Marca del instalador.** La cabecera y el lateral llevan el logo de YANCO, generado
+desde [build/brand/yanco-logo.png](build/brand/yanco-logo.png) con
+`python tools/make-installer-art.py`. Salen dos BMP de 24 bits sin comprimir:
+[build/installerHeader.bmp](build/installerHeader.bmp) (150x57, cabecera de cada página
+interna, incluida la de la licencia) y [build/installerSidebar.bmp](build/installerSidebar.bmp)
+(164x314, página final y desinstalador). Esos tamaños los impone MUI2 y NSIS no lee PNG,
+así que si cambias el logo hay que volver a ejecutar el script y reconstruir.
 
 ## Apoyo y donaciones
 
