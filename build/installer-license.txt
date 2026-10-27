@@ -12,7 +12,6 @@ El código completo está en https://github.com/yanzes/focus-walk y se distribuy
 
 # De dónde viene
 
-- Idea de referencia: proyecto Nusa (https://rama2555.github.io/nusa/). La implementación de esta app es propia.
 - El notch es un concepto visual de Apple (el recorte del iPhone y la Dynamic Island). Este proyecto no está afiliado, patrocinado ni respaldado por Apple Inc.; las marcas citadas son de sus dueños.
 - Se usó inteligencia artificial como consultor técnico: revisión de enfoques, escritura y depuración de código. Las decisiones de diseño y la responsabilidad del resultado son del autor.
 - Letras: LRCLIB. Carátulas: catálogo público de iTunes. Datos del sistema: APIs de Windows (SMTC, WASAPI, WMI/DDC-CI).
